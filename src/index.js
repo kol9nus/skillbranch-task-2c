@@ -4,9 +4,12 @@ import cors from 'cors';
 const app = express();
 app.use(cors());
 app.get('/', (req, res) => {
-  res.json({
-    hello: 'JS World',
-  });
+  const splittedUsername = req.query.username.split(/\?|\/|@/)
+    .filter(e => e);
+  const indexOfName = splittedUsername.findIndex((elem, index) => {
+    return index <= 2 && elem.indexOf('.') != -1;
+  }) + 1;
+  res.send('@' + splittedUsername[indexOfName]);
 });
 
 app.listen(3000, () => {
